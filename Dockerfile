@@ -1,25 +1,26 @@
 FROM node:18-bullseye
 
-# Instalar dependencias del sistema
+# Cambiar a usuario root para instalar dependencias
+USER root
+
+# Instalar unrar-free y limpiar caché
 RUN apt-get update && \
-    apt-get install -y unrar && \
+    apt-get install -y unrar-free && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Crear usuario n8n
+# Crear usuario n8n y carpeta de trabajo
 RUN useradd -m -s /bin/bash node
-
-# Crear carpeta de trabajo
 WORKDIR /home/node/app
 
 # Instalar n8n globalmente
 RUN npm install -g n8n
 
-# Cambiar a usuario node
+# Volver al usuario node
 USER node
 
-# Puerto por defecto
+# Exponer el puerto por defecto de n8n
 EXPOSE 5678
 
-# Comando para lanzar n8n
+# Comando para iniciar n8n
 CMD ["n8n"]
