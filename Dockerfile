@@ -8,7 +8,8 @@ RUN apt-get update && \
 
 # Crear directorio de configuración y ajustar permisos
 RUN mkdir -p /home/node/.n8n && \
-    chown -R node:node /home/node
+    chown -R node:node /home/node && \
+    chmod 700 /home/node/.n8n
 
 # Directorio de trabajo
 WORKDIR /home/node/app
@@ -21,4 +22,5 @@ USER node
 
 EXPOSE 5678
 
-CMD ["n8n"]
+# Comando final
+CMD ["bash", "-c", "n8n"]
