@@ -1,21 +1,19 @@
-FROM n8nio/n8n:latest
+FROM n8n:latest
 
 USER root
 
-# Instalar paquetes de Node.js
-RUN npm install xlsx node-xlsx && \
-    npm cache clean --force
+# Instalar dependencias del sistema y Python
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    && rm -rf /var/cache/apk/*
 
-# Actualizar índice de paquetes y instalar Python, pip y dependencias
-RUN apk update && \
-    apk add --no-cache \
-        python3 \
-        py3-pip \
-        libmagic-dev && \
-    pip3 install --no-cache-dir pandas openpyxl
+# Instalar dependencias de Python
+RUN pip3 install pandas openpyxl
 
-# Limpiar caché de apk (opcional, ya que --no-cache ayuda)
-# Nota: no es necesario borrar listas porque --no-cache ya lo evita
+# Instalar dependencias de Node.js
+RUN npm install xlsx node-xlsx \
+    && npm cache clean --force
 
-# Volver al usuario seguro por defecto
-USER node
+# Volver al usuario por defecto
+USER node
