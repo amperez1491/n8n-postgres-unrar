@@ -1,26 +1,16 @@
-FROM node:20-bullseye
+FROM n8n:latest
 
-# Instalar dependencias del sistema
-RUN apt-get update && \
-    apt-get install -y unrar-free && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+USER root
 
-# Crear directorio de configuración y ajustar permisos
-RUN mkdir -p /home/node/.n8n && \
-    chown -R node:node /home/node && \
-    chmod 700 /home/node/.n8n
 
-# Directorio de trabajo
-WORKDIR /home/node/app
+RUN npm install xlsx
+RUN npm install node-xlsx
+RUN npm cache clean --force
 
-# Instalar n8n globalmente
-RUN npm install -g n8n
-
-# Cambiar al usuario no privilegiado
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install pandas openpyxl
+RUN apt-get install -y libmagic-dev
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Volver al usuario por defecto
 USER node
 
-EXPOSE 5678
-
-# Comando final
-CMD ["bash", "-c", "n8n"]
