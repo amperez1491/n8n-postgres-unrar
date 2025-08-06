@@ -1,4 +1,4 @@
-FROM n8n:latest
+FROM n8nio/n8n:latest
 
 USER root
 
@@ -13,4 +13,5 @@ RUN apt-get install -y libmagic-dev
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Volver al usuario por defecto
 USER node
+
 
