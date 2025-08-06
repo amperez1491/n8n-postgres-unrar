@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 # Instalar dependencias de Python
-RUN pip3 install pandas openpyxl
+RUN pip3 install --break-system-packages pandas openpyxl
 
 # Instalar dependencias de Node.js
 RUN npm install xlsx node-xlsx \
@@ -17,3 +17,4 @@ RUN npm install xlsx node-xlsx \
 
 # Volver al usuario por defecto
 USER node
+
