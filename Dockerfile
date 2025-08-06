@@ -1,4 +1,4 @@
-FROM n8n:latest
+FROM n8nio/n8n:latest
 
 USER root
 
@@ -16,4 +16,4 @@ RUN npm install xlsx node-xlsx \
     && npm cache clean --force
 
 # Volver al usuario por defecto
-USER node
+USER node
